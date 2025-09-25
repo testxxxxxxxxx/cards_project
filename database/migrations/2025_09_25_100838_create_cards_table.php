@@ -18,7 +18,11 @@ return new class extends Migration
             $table->dateTime("activate")->nullable(false);
             $table->date("validity")->nullable(false);
             $table->bigInteger("balance")->nullable(false);
+            $table->bigInteger("user_id")->unique()->nullable(false);
             $table->timestamps();
+        });
+        Schema::table('cards', function (Blueprint $table) {
+            $table->foreign("user_id")->references("id")->on("users");
         });
     }
 

@@ -12,6 +12,7 @@ class Card extends Model
         "PIN",
         "activate",
         "validity",
-        "balance"
+        "balance",
+        "user_id"
     ];
 }
