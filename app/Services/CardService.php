@@ -25,19 +25,18 @@ class CardService {
             "PIN" => $PIN,
             "activate" => $activate,
             "validity" => $validity,
-            "balance" => $balance,
-            "user_id" => Auth::id()
+            "balance" => $balance
        ]); 
        return $cardIsCreated?true:false;
     }
     //edit card
     public function update(int $id, int $number, int $PIN, string $activate, string $validity, int $balance): bool {
-        $cardIsUpdated = Card::query()->where("id", $id)->where("user_id", Auth::id())->update(["number" => $number, "PIN" => $PIN, "activate" => $activate, "validity" => $validity, "balance" => $balance]);
+        $cardIsUpdated = Card::query()->where("id", $id)->update(["number" => $number, "PIN" => $PIN, "activate" => $activate, "validity" => $validity, "balance" => $balance]);
         return $cardIsUpdated?true:false;
     }
     //delete card
     public function delete(int $id): bool {
-        $cardIsDeleted = Card::query()->where("id", $id)->where("user_id", Auth::id())->delete();
+        $cardIsDeleted = Card::query()->where("id", $id)->delete();
         return $cardIsDeleted?true:false;
     }
 }
