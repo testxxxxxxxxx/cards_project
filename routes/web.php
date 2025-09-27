@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -9,9 +10,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::middleware("auth")->group(function() {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::controller(CardController::class)->group(function() {
         Route::get("/getCard", "index")->name("index");
         Route::get("/getAllCards", "show")->name("show");
