@@ -24,7 +24,7 @@ const routes = [
     {
         path: "/home",
         name: "HomeForm",
-        compoment: HomeForm,
+        component: HomeForm,
         meta: {requiresAuth: true},
     },
 

@@ -25,5 +25,5 @@ const login = async () => {
     catch(error) {
         console.error("error");   
     }
-}
+};
 </script>

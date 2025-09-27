@@ -21,7 +21,7 @@ const logout = async () => {
     catch(error) {
         console.log(error);
     }
-}
+};
 const show = async () => {
     try{
         await axios.get("/getAllCards");
@@ -30,8 +30,8 @@ const show = async () => {
     catch(error) {
         console.log(error);
     }
-}
+};
 const create = async () => {
     
-}
+};
 </script>
