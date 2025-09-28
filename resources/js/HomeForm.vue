@@ -1,22 +1,23 @@
 <template>
     <button @click="logout">Logout</button>
 
-    <div>All cards</div>
-        <div id="cards" v-for="card in paginateCards" :key="card.id">
-            <form @submit.prevent="updateCard(card.id)">
-                <input v-model="card.number" type="text"/>
-                <input v-model="card.PIN" type="text"/> 
-                <input v-model="card.activate" type="datetime-local"/>
-                <input v-model="card.validity" type="date"/>
-                <input v-model="card.balance" type="number"/>
-                <button type="submit">Update</button>  
-            </form>
-            <button @click="deleteCard(card.id)">Delete</button>
-        </div>
-        <div id="pages">
-            <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
-            <button v-for="p in totalPages" :key="p" @click="goToPage(p)" :class="{active: currentPage === p}">{{ p }}</button>
-        </div> 
+    <h2>All cards</h2>
+    <div id="cards" v-for="card in paginateCards" :key="card.id">
+        <form @submit.prevent="updateCard(card.id)">
+            <input v-model="card.number" type="text"/>
+            <input v-model="card.PIN" type="text"/> 
+            <input v-model="card.activate" type="datetime-local"/>
+            <input v-model="card.validity" type="date"/>
+            <input v-model="card.balance" type="number"/>
+            <button type="submit">Update</button> 
+            <button @click="deleteCard(card.id)">Delete</button> 
+        </form>
+    </div>
+    <div id="pages">
+        <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1">Prev</button>
+        <button v-for="p in totalPages" :key="p" @click="goToPage(p)" :class="{active: currentPage === p}">{{ p }}</button>
+    </div> 
+    <h2>Create card</h2>
     <form @submit.prevent="createCard">
         <input v-model="number" type="text" placeholder="number" required/>
         <input v-model="PIN" type="text" placeholder="PIN" required/>
@@ -44,6 +45,7 @@ const currentPage = ref(1);
 const page = ref(5);
 const totalPages = ref(1);
 
+//send to /logout
 const logout = async () => {
     try {
         await axios.post("/logout");
@@ -53,6 +55,7 @@ const logout = async () => {
         console.log(error);
     }
 };
+//send to /getAllCards
 const getCards = async () => {
     try{
         const res = await axios.get("/getAllCards");
@@ -64,15 +67,18 @@ const getCards = async () => {
     }
 };
 getCards();
+//divide to pages
 const paginateCards = computed(() => {
     const start = (currentPage.value - 1) * page.value;
     const end = start + page.value;
     return cards.value.slice(start, end); 
 });
+//go to another page
 const goToPage = (page) => {
     if(page >= 1 && page <= totalPages.value)
         currentPage.value = page;
 };
+//send to /createCard
 const createCard = async () => {
     try{
         const res = await axios.post("/createCard", {
@@ -90,6 +96,7 @@ const createCard = async () => {
         console.log(error);
     }
 };
+//send to /updateCard
 const updateCard = async (id) => {
     const card = cards.value.find(c => c.id === id);
     try{
@@ -109,6 +116,7 @@ const updateCard = async (id) => {
         console.log(error); 
     }
 };
+//send to /deleteCard
 const deleteCard = async (id) => {
     try{
         const res = await axios.post("/deleteCard", {

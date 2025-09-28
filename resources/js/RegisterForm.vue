@@ -18,6 +18,7 @@ const password = ref("");
 const password_confirmation = ref("");
 const router = useRouter();
 
+//send to /register
 const register = async () => {
     try{
         await axios.post("/register", {

@@ -11,7 +11,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::middleware("auth")->group(function() {
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/home', [HomeController::class, "index"])->name("home");
     Route::controller(CardController::class)->group(function() {
         Route::get("/getCard", "index")->name("index");
         Route::get("/getAllCards", "show")->name("show");

@@ -14,6 +14,7 @@ const email = ref("");
 const password = ref("");
 const router = useRouter();
 
+//send to /login
 const login = async () => {
     try{
         await axios.post("/login", {
