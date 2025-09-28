@@ -11,7 +11,7 @@ class CardRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,11 +22,11 @@ class CardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "number" => "required",
-            "PIN" => "required",
+            "number"   => "required|digits:20",     
+            "PIN"      => "required|digits:4",
             "activate" => "required",
-            "validity" => "required",
-            "balance" => "required"
+            "validity" => "required|date_format:Y-m-d",
+            "balance"  => "required|numeric|min:0"
         ];
     }
 }

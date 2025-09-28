@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IDRequest extends FormRequest
+class FullCardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,12 @@ class IDRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "id" => "required|numeric|min:1"
+            "id" => "required|numeric|min:1",
+            "number"   => "required|digits:20",     
+            "PIN"      => "required|digits:4",
+            "activate" => "required",
+            "validity" => "required|date_format:Y-m-d",
+            "balance"  => "required|numeric|min:0"
         ];
     }
 }

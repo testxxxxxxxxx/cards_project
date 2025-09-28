@@ -5,7 +5,6 @@ namespace App\Services;
 
 use App\Models\Card;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 
 class CardService {
     //return card after id
@@ -19,7 +18,7 @@ class CardService {
        return $card;
     }
     //creates card
-    public function create(int $number, int $PIN, string $activate, string $validity, int $balance): bool {
+    public function create(string $number, string $PIN, string $activate, string $validity, int $balance): bool {
        $cardIsCreated = Card::query()->create([
             "number" => $number,
             "PIN" => $PIN,
@@ -30,7 +29,7 @@ class CardService {
        return $cardIsCreated?true:false;
     }
     //edit card
-    public function update(int $id, int $number, int $PIN, string $activate, string $validity, int $balance): bool {
+    public function update(int $id, string $number, string $PIN, string $activate, string $validity, int $balance): bool {
         $cardIsUpdated = Card::query()->where("id", $id)->update(["number" => $number, "PIN" => $PIN, "activate" => $activate, "validity" => $validity, "balance" => $balance]);
         return $cardIsUpdated?true:false;
     }

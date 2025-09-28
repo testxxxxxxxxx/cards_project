@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\IDRequest;
 use App\Http\Requests\CardRequest;
+use App\Http\Requests\FullCardRequest;
 use App\Services\CardService;
-use Illuminate\View\View;
 
 class CardController extends Controller
 {
     public function __construct(private CardService $cardService) {
-        $this->cardService = $cardService;
     }
-    public function index(IDRequest $idRequest): View {
+    public function index(IDRequest $idRequest): JsonResponse {
         $id = $idRequest->input("id");
         $card = $this->cardService->get($id);
         $number = $card->number;
@@ -22,34 +21,34 @@ class CardController extends Controller
         $activate = $card->activate;
         $validity = $card->validity;
         $balance = $card->balance;
-        return view("index", ["number" => $number, "PIN" => $PIN, "activate" => $activate, "validity" => $validity, "balance" => $balance]);
+        return response()->json($card);
     }
-    public function show(): View {
+    public function show(): JsonResponse {
         $cards = $this->cardService->getAll();
-        return view("index", ["cards" => $cards]);
+        return response()->json($cards);
     }
-    public function create(CardRequest $cardRequest): RedirectResponse {
+    public function create(CardRequest $cardRequest): JsonResponse {
         $number = $cardRequest["number"];
         $PIN = $cardRequest["PIN"];
         $activate = $cardRequest["activate"];
         $validity = $cardRequest["validity"];
         $balance = $cardRequest["balance"];
         $message = $this->cardService->create($number, $PIN, $activate, $validity, $balance)?"true":"false";
-        return redirect()->route("index", ["message" => $message]);
+        return response()->json(["message" => $message]);
     }
-    public function update(IDRequest $idRequest, CardRequest $cardRequest): RedirectResponse {
-        $id = $cardRequest["id"];
-        $number = $cardRequest["number"];
-        $PIN = $cardRequest["PIN"];
-        $activate = $cardRequest["activate"];
-        $validity = $cardRequest["validity"];
-        $balance = $cardRequest["balance"];
+    public function update(FullCardRequest $fullCardRequest): JsonResponse {
+        $id = $fullCardRequest["id"];
+        $number = $fullCardRequest["number"];
+        $PIN = $fullCardRequest["PIN"];
+        $activate = $fullCardRequest["activate"];
+        $validity = $fullCardRequest["validity"];
+        $balance = $fullCardRequest["balance"];
         $message = $this->cardService->update($id, $number, $PIN, $activate, $validity, $balance)?"true":"false";
-        return redirect()->route("index", ["message" => $message]);
+        return response()->json(["message" => $message]);
     }
-    public function delete(IDRequest $idRequest): RedirectResponse {
+    public function delete(IDRequest $idRequest): JsonResponse {
         $id = $idRequest["id"];
         $message = $this->cardService->delete($id)?"true":"false";
-        return redirect()->route("index", ["message" => $message]);
+        return response()->json(["message" => $message]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\CardService;
+use Laravel\Prompts\Concerns\Erase;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,9 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(CardService::class, function() {
-            return app(CardService::class);
-        });
+
     }
 
     /**
